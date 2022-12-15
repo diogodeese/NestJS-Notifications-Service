@@ -1,8 +1,6 @@
-import { Notification } from '@application/entities/notification';
-import { Content } from '@application/entities/content';
 import { CountRecipientNotifications } from './count-recipient-notifications';
 import { InMemoryNotificationsRepository } from '@test/repositories/in-memory-notifications-repository';
-import { NotificationNotFound } from './errors/notification-not-found';
+import { makeNotification } from '@test/factories/notification-factory';
 
 describe('Count recipient notifications', () => {
   it('should be able to count recipient notifications', async () => {
@@ -12,27 +10,15 @@ describe('Count recipient notifications', () => {
     );
 
     await notificationsRepository.create(
-      new Notification({
-        recipientId: 'recipient-1',
-        content: new Content('Friend Request'),
-        category: 'social',
-      })
+      makeNotification({ recipientId: 'recipient-1' })
     );
 
     await notificationsRepository.create(
-      new Notification({
-        recipientId: 'recipient-1',
-        content: new Content('Friend Request'),
-        category: 'social',
-      })
+      makeNotification({ recipientId: 'recipient-1' })
     );
 
     await notificationsRepository.create(
-      new Notification({
-        recipientId: 'recipient-2',
-        content: new Content('Friend Request'),
-        category: 'social',
-      })
+      makeNotification({ recipientId: 'recipient-2' })
     );
 
     const { count } = await countRecipientNotifications.execute({
